@@ -356,7 +356,7 @@ a{color:#F2F1EE;text-decoration:none}a:hover{color:#E0223F}
   <div data-reveal="1" style="position:relative">
     <h2 style="font-family:Kurale,serif;font-weight:400;font-size:clamp(44px,6vw,84px);line-height:1;margin:0 0 28px;text-wrap:balance">Installez. Lancez. Regardez.</h2>
     <p style="font-size:17px;color:#B9B7BF;margin:0 auto 36px;max-width:520px;line-height:1.6">Android 8.0 ou plus récent. Autorisez l’installation depuis une source inconnue, puis ouvrez l’APK.</p>
-    <a href="https://github.com/jacobiwoop/cinewoop-releases/releases/latest" data-apk-link target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:12px;background:#E0223F;color:#fff;padding:18px 32px;border-radius:999px;font-weight:800;font-size:17px">↓ Télécharger CinéWoop.apk</a>
+    <a href="https://1kxauzo3gmcsiycy.public.blob.vercel-storage.com/cinewoop-latest.apk" style="display:inline-flex;align-items:center;gap:12px;background:#E0223F;color:#fff;padding:18px 32px;border-radius:999px;font-weight:800;font-size:17px">↓ Télécharger CinéWoop.apk</a>
   </div>
 </section>
 
@@ -511,19 +511,6 @@ class Component extends DCLogic {
     };
   }
 }
-</script>
-<script>
-(function(){
-  fetch('https://api.github.com/repos/jacobiwoop/cinewoop-releases/releases/latest')
-    .then(function(r){ return r.ok ? r.json() : null; })
-    .then(function(d){
-      if (!d || !d.assets) return;
-      var apk = d.assets.find(function(a){ return a.name.endsWith('.apk'); });
-      if (!apk) return;
-      document.querySelectorAll('[data-apk-link]').forEach(function(a){ a.href = apk.browser_download_url; });
-    })
-    .catch(function(){});
-})();
 </script>
 </body>
 </html>
