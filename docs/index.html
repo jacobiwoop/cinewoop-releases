@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CinéWoop</title>
+<meta name="description" content="CinéWoop est un client Android indépendant pour MovieBox : catalogue, lecteur vidéo avec gestes et sous-titres, téléchargement, et mises à jour automatiques.">
+<meta property="og:title" content="CinéWoop">
+<meta property="og:description" content="Films et séries, votre façon. Un client Android indépendant pour MovieBox.">
+<meta property="og:image" content="thumbnail.webp">
+<meta property="og:type" content="website">
+<link rel="icon" href="thumbnail.webp" type="image/webp">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Kurale&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;background:#0B0B0F;color:#F2F1EE;font-family:Manrope,system-ui,sans-serif;-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+a{color:#F2F1EE;text-decoration:none}a:hover{color:#E0223F}
+@keyframes cwTap{0%{transform:scale(.4);opacity:0}30%{opacity:1}100%{transform:scale(1.7);opacity:0}}
+@keyframes cwRipple{0%{opacity:0;transform:scale(.75)}25%{opacity:1}100%{opacity:0;transform:scale(1.05)}}
+@keyframes cwPop{0%{opacity:0;transform:scale(.8)}18%{opacity:1;transform:scale(1)}78%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1)}}
+@keyframes cwFill{0%{height:22%}100%{height:84%}}
+@keyframes cwSwipe{0%{transform:translateY(50px);opacity:0}15%{opacity:1}80%{opacity:1}100%{transform:translateY(-50px);opacity:0}}
+@keyframes cwHold{0%{transform:scale(.6);opacity:0}20%{opacity:1}100%{transform:scale(2.2);opacity:0}}
+@keyframes cwScan{0%{top:0;opacity:1}90%{opacity:1}100%{top:100%;opacity:0}}
+@keyframes cwBar{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes cwMarquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes cwFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
+@keyframes cwSpin{to{transform:rotate(360deg)}}
+@keyframes cwGlow{0%,100%{opacity:.35}50%{opacity:.7}}
+</style>
+</helmet>
+
+<div style="position:relative;overflow:hidden">
+
+<nav style="position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:rgba(11,11,15,.72);border-bottom:1px solid #1C1C23">
+  <div style="max-width:1200px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px">
+    <a href="#top" style="display:flex;align-items:center;gap:10px">
+      <span style="width:26px;height:26px;border-radius:50%;border:2px solid #E0223F;display:grid;place-items:center">
+        <span style="width:0;height:0;border-left:8px solid #E0223F;border-top:5px solid transparent;border-bottom:5px solid transparent;margin-left:2px"></span>
+      </span>
+      <span style="font-family:Kurale,serif;font-size:22px">CinéWoop</span>
+    </a>
+    <div style="display:flex;gap:20px;align-items:center;font-size:14px;font-weight:600;min-width:0">
+      <div style="display:flex;gap:20px;overflow:hidden;flex-wrap:wrap;height:20px;min-width:0;justify-content:flex-end">
+        <a href="#catalogue" style="color:#A3A1AA;white-space:nowrap">Catalogue</a>
+        <a href="#lecteur" style="color:#A3A1AA;white-space:nowrap">Lecteur</a>
+        <a href="#sous-titres" style="color:#A3A1AA;white-space:nowrap">Sous-titres</a>
+        <a href="#telechargements" style="color:#A3A1AA;white-space:nowrap">Téléchargements</a>
+      </div>
+      <a href="#apk" style="background:#E0223F;color:#fff;padding:9px 16px;border-radius:999px;white-space:nowrap;flex-shrink:0">Télécharger l’APK</a>
+    </div>
+  </div>
+</nav>
+
+<header id="top" style="position:relative;max-width:1200px;margin:0 auto;padding:72px 24px 40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:48px;align-items:center">
+  <div style="position:absolute;width:720px;height:720px;right:-160px;top:-120px;border-radius:50%;background:radial-gradient(circle,rgba(224,34,63,.28),rgba(224,34,63,0) 65%);animation:cwGlow 7s ease-in-out infinite;pointer-events:none"></div>
+  <div data-reveal="1" style="position:relative">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.14em;color:#E0223F;text-transform:uppercase;margin-bottom:22px">Client Android non officiel · MovieBox</div>
+    <h1 style="font-family:Kurale,serif;font-weight:400;font-size:clamp(48px,6.4vw,88px);line-height:.98;margin:0 0 24px;letter-spacing:-.01em;text-wrap:balance">Tout MovieBox.<br><span style="color:#E0223F">Rien</span> de ce qui agace.</h1>
+    <p style="font-size:18px;line-height:1.6;color:#B9B7BF;max-width:480px;margin:0 0 34px;text-wrap:pretty">CinéWoop reprend l’intégralité du catalogue MovieBox dans une interface repensée : un vrai lecteur à gestes, des sous-titres qui s’affichent enfin correctement, et des téléchargements qu’on retrouve.</p>
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
+      <a href="#apk" style="display:flex;align-items:center;gap:10px;background:#F2F1EE;color:#0B0B0F;padding:16px 26px;border-radius:999px;font-weight:800;font-size:16px">
+        <span style="width:0;height:0;border-left:11px solid #0B0B0F;border-top:7px solid transparent;border-bottom:7px solid transparent"></span>Télécharger l’APK</a>
+      <a href="#lecteur" style="display:flex;align-items:center;padding:16px 26px;border-radius:999px;border:1px solid #3A3A44;font-weight:700;font-size:16px">Voir le lecteur</a>
+    </div>
+    <div style="display:flex;gap:18px;margin-top:40px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#7E7C86;flex-wrap:wrap">
+      <span>Kotlin</span><span style="color:#E0223F">/</span><span>Jetpack Compose</span><span style="color:#E0223F">/</span><span>Media3 ExoPlayer</span>
+    </div>
+  </div>
+
+  <div data-reveal="1" style="position:relative;height:clamp(520px,58vw,640px)">
+    <div style="position:absolute;left:0;top:70px;width:40%;max-width:210px;transform:rotate(-9deg);opacity:.85">
+      <div style="animation:cwFloat 7s ease-in-out infinite">
+        <div style="padding:6px;border-radius:32px;background:#050507;border:1px solid #2A2A32;box-shadow:0 40px 80px -20px rgba(0,0,0,.9)">
+          <div style="border-radius:26px;overflow:hidden;aspect-ratio:1080/2400"><img src="uploads/03_fiche_a_different_world.png" alt="Fiche A Different World" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+        </div>
+      </div>
+    </div>
+    <div style="position:absolute;right:0;top:90px;width:40%;max-width:210px;transform:rotate(9deg);opacity:.85">
+      <div style="animation:cwFloat 8s ease-in-out -3s infinite">
+        <div style="padding:6px;border-radius:32px;background:#050507;border:1px solid #2A2A32;box-shadow:0 40px 80px -20px rgba(0,0,0,.9)">
+          <div style="border-radius:26px;overflow:hidden;aspect-ratio:1080/2400"><img src="uploads/09_menu_telechargement.png" alt="Téléchargements" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+        </div>
+      </div>
+    </div>
+    <div style="position:absolute;left:50%;top:0;width:48%;max-width:270px;transform:translateX(-50%);z-index:2">
+      <div style="padding:7px;border-radius:40px;background:#050507;border:1px solid #33333C;box-shadow:0 50px 100px -20px rgba(0,0,0,.95),0 0 0 1px rgba(224,34,63,.15)">
+        <div style="border-radius:33px;overflow:hidden;aspect-ratio:1080/2400;background:#000">
+          <video src="uploads/02_accueil_carrousel.mp4" autoplay="" muted="" loop="" playsinline="" style="width:100%;height:100%;object-fit:cover;display:block"></video>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div style="border-top:1px solid #1C1C23;border-bottom:1px solid #1C1C23;overflow:hidden;padding:22px 0;margin-top:30px">
+  <div style="display:flex;width:max-content;animation:cwMarquee 38s linear infinite">
+    <sc-for list="{{ marquee }}" as="m" hint-placeholder-count="12">
+      <div style="display:flex;align-items:center;gap:40px;padding-right:40px;font-family:Kurale,serif;font-size:clamp(28px,4vw,48px);white-space:nowrap;color:#D8D6DC">
+        <span>{{ m }}</span><span style="width:10px;height:10px;border-radius:50%;background:#E0223F"></span>
+      </div>
+    </sc-for>
+  </div>
+</div>
+
+<section id="catalogue" style="max-width:1200px;margin:0 auto;padding:120px 24px 60px">
+  <div data-reveal="1" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:40px;align-items:end;margin-bottom:64px">
+    <div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.14em;color:#E0223F;margin-bottom:18px">01 — CATALOGUE &amp; DÉCOUVERTE</div>
+      <h2 style="font-family:Kurale,serif;font-weight:400;font-size:clamp(38px,4.6vw,60px);line-height:1.02;margin:0;text-wrap:balance">Le même catalogue, rangé comme il faut.</h2>
+    </div>
+    <p style="font-size:17px;line-height:1.65;color:#B9B7BF;margin:0;text-wrap:pretty">Bannière en carrousel, Top 10 du moment, rayons Trending, Anime, Movie, TV ou FightZone, recherche instantanée. Chaque fiche montre l’essentiel d’un coup d’œil : note, année, langues audio disponibles, saisons et épisodes avec leur poids.</p>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:28px">
+    <figure data-reveal="1" style="margin:0">
+      <div style="padding:6px;border-radius:34px;background:#050507;border:1px solid #2A2A32;max-width:300px;margin:0 auto">
+        <div style="border-radius:28px;overflow:hidden;aspect-ratio:1080/2400"><img src="uploads/01_accueil.png" alt="Accueil" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+      </div>
+      <figcaption style="max-width:300px;margin:18px auto 0;font-size:15px;line-height:1.5;color:#A3A1AA"><strong style="color:#F2F1EE;display:block;font-size:16px;margin-bottom:4px">Accueil</strong>Carrousel, onglets de catégories et Top 10 classé.</figcaption>
+    </figure>
+    <figure data-reveal="1" style="margin:0">
+      <div style="padding:6px;border-radius:34px;background:#050507;border:1px solid #2A2A32;max-width:300px;margin:0 auto">
+        <div style="border-radius:28px;overflow:hidden;aspect-ratio:1080/2400"><img src="uploads/03_fiche_a_different_world.png" alt="Fiche série" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+      </div>
+      <figcaption style="max-width:300px;margin:18px auto 0;font-size:15px;line-height:1.5;color:#A3A1AA"><strong style="color:#F2F1EE;display:block;font-size:16px;margin-bottom:4px">Fiche détaillée</strong>Langue, saison et qualité choisies en trois menus.</figcaption>
+    </figure>
+    <figure data-reveal="1" style="margin:0">
+      <div style="padding:6px;border-radius:34px;background:#050507;border:1px solid #2A2A32;max-width:300px;margin:0 auto">
+        <div style="border-radius:28px;overflow:hidden;aspect-ratio:1080/2400"><img src="uploads/04_fiche_blood_legacy.png" alt="Fiche avec bande-annonce" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+      </div>
+      <figcaption style="max-width:300px;margin:18px auto 0;font-size:15px;line-height:1.5;color:#A3A1AA"><strong style="color:#F2F1EE;display:block;font-size:16px;margin-bottom:4px">Bande-annonce intégrée</strong>Lecture directement en tête de fiche, avant même de lancer l’épisode.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="lecteur" style="max-width:1200px;margin:0 auto;padding:100px 24px 60px">
+  <div data-reveal="1" style="max-width:720px;margin-bottom:56px">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.14em;color:#E0223F;margin-bottom:18px">02 — LECTEUR MAISON</div>
+    <h2 style="font-family:Kurale,serif;font-weight:400;font-size:clamp(38px,4.6vw,60px);line-height:1.02;margin:0 0 20px;text-wrap:balance">Tout se pilote du pouce.</h2>
+    <p style="font-size:17px;line-height:1.65;color:#B9B7BF;margin:0;text-wrap:pretty">Un lecteur construit sur ExoPlayer, avec les gestes qu’on attend d’une vraie appli de streaming. Essayez : double-cliquez sur les côtés ou au centre de l’image, maintenez appuyé, faites glisser la barre.</p>
+  </div>
+  <div data-reveal="1" style="display:grid;grid-template-columns:minmax(0,1.7fr) minmax(260px,1fr);gap:32px;align-items:start">
+    <div style="position:relative;aspect-ratio:1080/560;border-radius:20px;overflow:hidden;background-color:#000;background-image:url(uploads/03_fiche_a_different_world.png);background-size:100% auto;background-position:center 7.5%;background-repeat:no-repeat;user-select:none;-webkit-user-select:none;touch-action:none;box-shadow:0 40px 90px -30px rgba(0,0,0,.9);border:1px solid #22222A;min-width:0">
+      <div style="position:absolute;inset:0;background:rgba(0,0,0,{{ dim }});transition:background .5s"></div>
+      <div style="position:absolute;inset:0;display:flex">
+        <div onDoubleClick="{{ tapL }}" onPointerDown="{{ holdStart }}" onPointerUp="{{ holdEnd }}" onPointerLeave="{{ holdEnd }}" style="flex:1;cursor:pointer"></div>
+        <div onDoubleClick="{{ tapC }}" onPointerDown="{{ holdStart }}" onPointerUp="{{ holdEnd }}" onPointerLeave="{{ holdEnd }}" style="flex:1;cursor:pointer"></div>
+        <div onDoubleClick="{{ tapR }}" onPointerDown="{{ holdStart }}" onPointerUp="{{ holdEnd }}" onPointerLeave="{{ holdEnd }}" style="flex:1;cursor:pointer"></div>
+      </div>
+      <div style="position:absolute;inset:0;pointer-events:none">{{ fx }}</div>
+      <div style="position:absolute;left:0;right:0;top:0;padding:16px 20px;background:linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,0));font-size:14px;font-weight:700;pointer-events:none;display:flex;justify-content:space-between">
+        <span>A Different World · S01E01</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#E0223F">{{ speedLabel }}</span>
+      </div>
+      <div style="position:absolute;left:0;right:0;bottom:0;padding:28px 20px 16px;background:linear-gradient(rgba(0,0,0,0),rgba(0,0,0,.75));display:flex;align-items:center;gap:16px">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:12px;width:92px;flex-shrink:0">{{ timeLabel }}</span>
+        <div onPointerDown="{{ onBar }}" style="flex:1;height:26px;display:flex;align-items:center;cursor:grab;touch-action:none">
+          <div style="position:relative;width:100%;height:4px;border-radius:4px;background:rgba(255,255,255,.3)">
+            <div style="position:absolute;left:0;top:0;bottom:0;width:{{ posPct }};background:#E0223F;border-radius:4px"></div>
+            <div style="position:absolute;top:50%;left:{{ posPct }};width:{{ knob }};height:{{ knob }};margin-left:-9px;margin-top:-9px;border-radius:50%;background:#fff;transition:width .15s,height .15s;box-shadow:0 2px 10px rgba(0,0,0,.5)"></div>
+          </div>
+        </div>
+        <span style="width:16px;height:16px;flex-shrink:0;border:2px solid #fff;border-radius:2px;clip-path:polygon(0 0,35% 0,35% 20%,65% 20%,65% 0,100% 0,100% 35%,80% 35%,80% 65%,100% 65%,100% 100%,65% 100%,65% 80%,35% 80%,35% 100%,0 100%,0 65%,20% 65%,20% 35%,0 35%)"></span>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <sc-for list="{{ gestures }}" as="it" hint-placeholder-count="6">
+        <button onClick="{{ it.pick }}" style="all:unset;cursor:pointer;position:relative;display:block;padding:14px 18px;border-radius:14px;background:{{ it.bg }};transition:background .35s;overflow:hidden">
+          <div style="font-weight:800;font-size:16px;color:{{ it.col }};transition:color .35s">{{ it.t }}</div>
+          <div style="font-size:14px;color:#A3A1AA;margin-top:3px;line-height:1.45">{{ it.d }}</div>
+          <sc-if value="{{ it.active }}" hint-placeholder-val="{{ false }}">
+            <div style="position:absolute;left:0;right:0;bottom:0;height:2px">{{ gBar }}</div>
+          </sc-if>
+        </button>
+      </sc-for>
+    </div>
+  </div>
+  <div data-reveal="1" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:28px;margin-top:64px">
+    <div style="border-top:1px solid #2A2A32;padding-top:20px"><div style="font-weight:800;font-size:17px;margin-bottom:6px">Barre glissable</div><div style="font-size:15px;color:#A3A1AA;line-height:1.55">On attrape la tête de lecture au doigt et on se place à la seconde près.</div></div>
+    <div style="border-top:1px solid #2A2A32;padding-top:20px"><div style="font-weight:800;font-size:17px;margin-bottom:6px">Plein écran</div><div style="font-size:15px;color:#A3A1AA;line-height:1.55">Bascule paysage immersive, sans barres système.</div></div>
+    <div style="border-top:1px solid #2A2A32;padding-top:20px"><div style="font-weight:800;font-size:17px;margin-bottom:6px">Pause automatique</div><div style="font-size:15px;color:#A3A1AA;line-height:1.55">Un appel, un message : l’appli passe en arrière-plan, la vidéo s’arrête là où vous l’avez laissée.</div></div>
+  </div>
+</section>
+
+<section id="sous-titres" style="max-width:1200px;margin:0 auto;padding:100px 24px 60px">
+  <div data-reveal="1" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:40px;align-items:end;margin-bottom:56px">
+    <div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.14em;color:#E0223F;margin-bottom:18px">03 — SOUS-TITRES</div>
+      <h2 style="font-family:Kurale,serif;font-weight:400;font-size:clamp(38px,4.6vw,60px);line-height:1.02;margin:0;text-wrap:balance">Des sous-titres qui s’affichent. Vraiment.</h2>
+    </div>
+    <p style="font-size:17px;line-height:1.65;color:#B9B7BF;margin:0;text-wrap:pretty">Sur MovieBox, un fichier annoncé en .srt contient parfois du WebVTT, et rien ne s’affiche. CinéWoop lit le contenu réel du fichier avant de le charger, puis vous laisse régler taille et couleur — mémorisées pour chaque titre.</p>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:28px">
+    <div data-reveal="1" style="background:#15151B;border:1px solid #24242C;border-radius:22px;padding:24px;display:flex;flex-direction:column;gap:18px;min-width:0">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+        <span style="font-weight:800;font-size:16px">Détection du format</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#A3A1AA">{{ file.name }}</span>
+      </div>
+      <div style="position:relative;background:#0B0B0F;border:1px solid #24242C;border-radius:14px;padding:18px 20px;font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.9;color:#C9C7CE;min-height:150px;overflow:hidden">
+        <sc-for list="{{ file.lines }}" as="ln" hint-placeholder-count="4">
+          <div style="white-space:pre;min-height:1.9em">{{ ln }}</div>
+        </sc-for>
+        {{ scanEl }}
+      </div>
+      <div style="display:flex;align-items:center;gap:14px;min-height:48px;opacity:{{ resOp }};transform:translateY({{ resY }});transition:opacity .45s,transform .45s">
+        <span style="background:#E0223F;color:#fff;font-weight:800;font-size:14px;padding:8px 14px;border-radius:999px">{{ file.res }} détecté</span>
+        <span style="font-size:14px;color:#B9B7BF;line-height:1.4">{{ file.note }}</span>
+      </div>
+    </div>
+
+    <div data-reveal="1" style="background:#15151B;border:1px solid #24242C;border-radius:22px;padding:24px;display:flex;flex-direction:column;gap:18px;min-width:0">
+      <span style="font-weight:800;font-size:16px">Style personnalisable</span>
+      <div style="position:relative;aspect-ratio:1080/430;border-radius:14px;overflow:hidden;background-color:#000;background-image:url(uploads/05_lecteur_sous_titres.png);background-size:100% auto;background-position:center 7.3%;background-repeat:no-repeat">
+        <div style="position:absolute;left:6%;right:6%;bottom:9%;display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center">
+          <span style="font-weight:700;font-style:italic;font-size:{{ subSize }};color:{{ subColor }};background:{{ subBg }};padding:1px 8px;border-radius:4px;text-shadow:0 1px 3px rgba(0,0,0,.9);transition:all .3s">Je veux que tu rentres à la maison,</span>
+          <span style="font-weight:700;font-style:italic;font-size:{{ subSize }};color:{{ subColor }};background:{{ subBg }};padding:1px 8px;border-radius:4px;text-shadow:0 1px 3px rgba(0,0,0,.9);transition:all .3s">pour reprendre les rênes, mon enfant.</span>
+        </div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:20px;align-items:center;justify-content:space-between">
+        <div style="display:flex;gap:6px;background:#0B0B0F;padding:4px;border-radius:999px">
+          <sc-for list="{{ sizes }}" as="s" hint-placeholder-count="3">
+            <button onClick="{{ s.pick }}" style="all:unset;cursor:pointer;padding:8px 14px;border-radius:999px;font-size:13px;font-weight:700;background:{{ s.bg }};color:{{ s.col }};transition:all .25s">{{ s.label }}</button>
+          </sc-for>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center">
+          <sc-for list="{{ colors }}" as="c" hint-placeholder-count="3">
+            <button onClick="{{ c.pick }}" aria-label="{{ c.name }}" style="all:unset;cursor:pointer;width:26px;height:26px;border-radius:50%;background:{{ c.hex }};box-shadow:0 0 0 3px #15151B, 0 0 0 {{ c.ring }} #F2F1EE;transition:box-shadow .25s"></button>
+          </sc-for>
+          <button onClick="{{ toggleBg }}" style="all:unset;cursor:pointer;margin-left:6px;padding:8px 12px;border-radius:10px;border:1px solid #33333C;font-size:13px;font-weight:700;color:{{ bgBtnCol }}">Fond</button>
+        </div>
+      </div>
+      <div style="border-top:1px solid #24242C;padding-top:14px;display:flex;flex-direction:column;gap:8px;font-size:14px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;color:#7E7C86">MÉMORISÉ PAR TITRE</div>
+        <div style="display:flex;justify-content:space-between;gap:10px"><span>Blood Legacy</span><span style="color:#A3A1AA">{{ memo }}</span></div>
+        <div style="display:flex;justify-content:space-between;gap:10px"><span>The Blue Wolves of Mibu</span><span style="color:#A3A1AA">Grand · jaune · fond</span></div>
+        <div style="display:flex;justify-content:space-between;gap:10px"><span>A Different World</span><span style="color:#A3A1AA">Moyen · blanc</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="telechargements" style="max-width:1200px;margin:0 auto;padding:100px 24px 60px">
+  <div data-reveal="1" style="max-width:720px;margin-bottom:56px">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.14em;color:#E0223F;margin-bottom:18px">04 — TÉLÉCHARGEMENTS</div>
+    <h2 style="font-family:Kurale,serif;font-weight:400;font-size:clamp(38px,4.6vw,60px);line-height:1.02;margin:0 0 20px;text-wrap:balance">Pour le métro, l’avion, et tout le reste.</h2>
+    <p style="font-size:17px;line-height:1.65;color:#B9B7BF;margin:0;text-wrap:pretty">Un épisode ou la saison entière, dans la qualité de votre choix. Ce que vous avez téléchargé et ce que vous avez regardé en streaming vivent sur un seul écran, trié par date.</p>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:36px;align-items:start">
+    <div data-reveal="1" style="display:grid;grid-template-columns:1fr 1fr;gap:18px">
+      <div>
+        <div style="padding:6px;border-radius:32px;background:#050507;border:1px solid #2A2A32">
+          <div style="border-radius:26px;overflow:hidden;aspect-ratio:1080/2400;background:#000"><video src="uploads/08_demo_telechargement_trim.mp4" autoplay="" muted="" loop="" playsinline="" style="width:100%;height:100%;object-fit:cover;display:block"></video></div>
+        </div>
+        <div style="font-size:14px;color:#A3A1AA;margin-top:12px;text-align:center">Lancer un téléchargement</div>
+      </div>
+      <div style="margin-top:48px">
+        <div style="padding:6px;border-radius:32px;background:#050507;border:1px solid #2A2A32">
+          <div style="border-radius:26px;overflow:hidden;aspect-ratio:1080/2400;background:#000"><video src="uploads/10_demo_menu_telechargement.mp4" autoplay="" muted="" loop="" playsinline="" style="width:100%;height:100%;object-fit:cover;display:block"></video></div>
+        </div>
+        <div style="font-size:14px;color:#A3A1AA;margin-top:12px;text-align:center">Écran Téléchargements</div>
+      </div>
+    </div>
+
+    <div data-reveal="1" style="background:#15151B;border:1px solid #24242C;border-radius:22px;padding:24px;display:flex;flex-direction:column;gap:22px;min-width:0">
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px"><span style="font-weight:800;font-size:16px">Blood Legacy · Saison 01</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#A3A1AA">Qualité</span></div>
+        <div style="position:relative;display:grid;grid-template-columns:repeat(4,1fr);background:#0B0B0F;border-radius:12px;padding:4px">
+          <div style="position:absolute;top:4px;bottom:4px;left:calc(4px + {{ qLeft }});width:calc((100% - 8px) / 4);background:#E0223F;border-radius:9px;transition:left .45s cubic-bezier(.3,.8,.2,1)"></div>
+          <sc-for list="{{ quals }}" as="q" hint-placeholder-count="4">
+            <button onClick="{{ q.pick }}" style="all:unset;cursor:pointer;position:relative;text-align:center;padding:10px 0;font-weight:800;font-size:14px">{{ q.label }}</button>
+          </sc-for>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:10px;margin-top:12px">
+          <sc-for list="{{ eps }}" as="e" hint-placeholder-count="3">
+            <div style="background:#1E1E25;border-radius:12px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center">
+              <div><div style="font-weight:800;font-size:17px">{{ e.n }}</div><div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#A3A1AA;margin-top:2px">{{ e.size }}</div></div>
+              <span style="color:#E0223F;font-weight:800;font-size:18px">↓</span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="margin-top:10px;font-size:13px;color:#A3A1AA">Saison complète : <strong style="color:#F2F1EE">{{ total }}</strong> en un geste</div>
+      </div>
+
+      <div style="background:#0B0B0F;border-radius:14px;padding:14px 16px">
+        <div style="display:flex;justify-content:space-between;font-size:14px;font-weight:700;gap:10px"><span>S01E02 · {{ qName }}</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#A3A1AA">{{ dlLeft }}</span></div>
+        <div style="height:4px;background:#26262E;border-radius:4px;margin:10px 0 8px;overflow:hidden"><div style="height:100%;width:{{ dpPct }};background:#E0223F;border-radius:4px"></div></div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#A3A1AA">{{ dlText }}</div>
+      </div>
+
+      <div>
+        <div style="display:flex;gap:8px;margin-bottom:10px">
+          <sc-for list="{{ filters }}" as="f" hint-placeholder-count="3">
+            <button onClick="{{ f.pick }}" style="all:unset;cursor:pointer;padding:8px 16px;border-radius:999px;font-size:13px;font-weight:800;background:{{ f.bg }};color:{{ f.col }};transition:all .3s">{{ f.label }}</button>
+          </sc-for>
+        </div>
+        <div style="display:flex;flex-direction:column">
+          <sc-for list="{{ items }}" as="it" hint-placeholder-count="4">
+            <div style="display:flex;gap:14px;align-items:center;overflow:hidden;max-height:{{ it.mh }};opacity:{{ it.op }};padding:{{ it.pad }};transition:max-height .5s cubic-bezier(.3,.8,.2,1),opacity .4s,padding .5s;border-bottom:1px solid #22222A">
+              <div style="width:40px;height:56px;border-radius:6px;flex-shrink:0;background-color:#222;background-image:{{ it.img }};background-size:{{ it.bs }};background-position:{{ it.bp }};background-repeat:no-repeat"></div>
+              <div style="flex:1;min-width:0">
+                <div style="font-weight:700;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ it.t }}</div>
+                <div style="font-size:13px;color:#A3A1AA;margin-top:3px">{{ it.s }}</div>
+              </div>
+              <div style="text-align:right;flex-shrink:0">
+                <div style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;color:{{ it.tagCol }}">{{ it.tag }}</div>
+                <div style="font-size:12px;color:#7E7C86;margin-top:3px">{{ it.d }}</div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="max-width:1200px;margin:0 auto;padding:100px 24px 60px">
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:48px;align-items:center">
+    <div data-reveal="1">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.14em;color:#E0223F;margin-bottom:18px">05 — MISES À JOUR</div>
+      <h2 style="font-family:Kurale,serif;font-weight:400;font-size:clamp(38px,4.6vw,60px);line-height:1.02;margin:0 0 20px;text-wrap:balance">Toujours à jour, sans chercher.</h2>
+      <p style="font-size:17px;line-height:1.65;color:#B9B7BF;margin:0;text-wrap:pretty">À chaque lancement, CinéWoop vérifie s’il existe une nouvelle version. Si oui, une fenêtre vous le dit — avec ce qui change — et l’installation se fait depuis l’appli.</p>
+    </div>
+    <div data-reveal="1" style="position:relative;height:300px;max-width:420px;width:100%;margin:0 auto">
+      <div style="position:absolute;inset:0;border-radius:24px;background:#15151B;border:1px solid #24242C"></div>
+      <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;opacity:{{ up0 }};transition:opacity .5s">
+        <div style="width:34px;height:34px;border-radius:50%;border:3px solid #2A2A32;border-top-color:#E0223F;animation:cwSpin .9s linear infinite"></div>
+        <div style="font-size:15px;color:#B9B7BF">Recherche d’une nouvelle version…</div>
+      </div>
+      <div style="position:absolute;inset:24px;display:flex;flex-direction:column;gap:14px;opacity:{{ up1 }};transform:scale({{ up1s }});transition:opacity .5s,transform .5s cubic-bezier(.3,.8,.2,1)">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#E0223F;letter-spacing:.1em">NOUVELLE VERSION</div>
+        <div style="font-family:Kurale,serif;font-size:30px">CinéWoop 1.8</div>
+        <div style="font-size:14px;color:#B9B7BF;line-height:1.7">Téléchargements plus rapides<br>Nouveau rayon FightZone<br>Correctifs du lecteur</div>
+        <div style="display:flex;gap:10px;margin-top:auto;justify-content:flex-end">
+          <span style="padding:10px 16px;border-radius:999px;font-size:14px;font-weight:700;color:#A3A1AA">Plus tard</span>
+          <span style="padding:10px 18px;border-radius:999px;font-size:14px;font-weight:800;background:#E0223F;color:#fff">Mettre à jour</span>
+        </div>
+      </div>
+      <div style="position:absolute;inset:24px;display:flex;flex-direction:column;justify-content:center;gap:16px;opacity:{{ up2 }};transition:opacity .5s">
+        <div style="font-size:15px;font-weight:700">Téléchargement de la mise à jour</div>
+        <div style="height:6px;background:#26262E;border-radius:6px;overflow:hidden"><div style="height:100%;width:{{ upBar }};background:#E0223F;transition:width {{ upBarT }} linear"></div></div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#A3A1AA">CinéWoop-1.8.apk</div>
+      </div>
+      <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;opacity:{{ up3 }};transform:scale({{ up3s }});transition:opacity .5s,transform .5s">
+        <div style="width:56px;height:56px;border-radius:50%;background:#E0223F;display:grid;place-items:center"><span style="width:20px;height:11px;border-left:3px solid #fff;border-bottom:3px solid #fff;transform:rotate(-45deg) translate(2px,-2px)"></span></div>
+        <div style="font-size:16px;font-weight:700">Prêt à installer</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="apk" style="position:relative;max-width:1200px;margin:0 auto;padding:120px 24px 80px;text-align:center">
+  <div style="position:absolute;left:50%;top:40%;width:640px;height:420px;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(ellipse,rgba(224,34,63,.25),rgba(224,34,63,0) 70%);pointer-events:none"></div>
+  <div data-reveal="1" style="position:relative">
+    <h2 style="font-family:Kurale,serif;font-weight:400;font-size:clamp(44px,6vw,84px);line-height:1;margin:0 0 28px;text-wrap:balance">Installez. Lancez. Regardez.</h2>
+    <p style="font-size:17px;color:#B9B7BF;margin:0 auto 36px;max-width:520px;line-height:1.6">Android 8.0 ou plus récent. Autorisez l’installation depuis une source inconnue, puis ouvrez l’APK.</p>
+    <a href="https://github.com/jacobiwoop/cinewoop-releases/releases/latest" data-apk-link target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:12px;background:#E0223F;color:#fff;padding:18px 32px;border-radius:999px;font-weight:800;font-size:17px">↓ Télécharger CinéWoop.apk</a>
+  </div>
+</section>
+
+<footer style="border-top:1px solid #1C1C23">
+  <div style="max-width:1200px;margin:0 auto;padding:32px 24px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:13px;color:#7E7C86;line-height:1.6">
+    <span style="font-family:Kurale,serif;font-size:18px;color:#F2F1EE">CinéWoop</span>
+    <sc-if value="{{ showDisclaimer }}" hint-placeholder-val="{{ true }}">
+      <span style="max-width:620px">Projet indépendant, non affilié à MovieBox. CinéWoop n’héberge aucun contenu : il affiche le catalogue MovieBox dans sa propre interface.</span>
+    </sc-if>
+  </div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;autoDemo&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;showDisclaimer&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  state = { g: 0, tick: 0, pos: 0.27, dragging: false, holding: false, sz: 1, col: 0, sbg: false, fi: 0, fdone: false, q: 1, dp: 0.2, filt: 0, up: 0, userUntil: 0, filtUntil: 0 };
+  componentDidMount() {
+    document.querySelectorAll('video').forEach(v => { v.muted = true; v.playsInline = true; v.play().catch(() => {}); });
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.style.opacity = '1'; e.target.style.transform = 'none'; io.unobserve(e.target); } }), { threshold: 0.12 });
+    document.querySelectorAll('[data-reveal]').forEach(el => {
+      if (el.getBoundingClientRect().top < innerHeight * 0.92) return;
+      el.style.opacity = '0'; el.style.transform = 'translateY(40px)';
+      el.style.transition = 'opacity 1s cubic-bezier(.2,.7,.2,1), transform 1s cubic-bezier(.2,.7,.2,1)';
+      io.observe(el);
+    });
+    this.io = io;
+    const runFmt = () => { clearTimeout(this.ft); this.ft = setTimeout(() => this.setState({ fdone: true }), 1400); };
+    runFmt();
+    this.timers = [
+      setInterval(() => { if (this.props.autoDemo === false || Date.now() < this.state.userUntil) return; this.fire((this.state.g + 1) % 6, false); }, 2800),
+      setInterval(() => this.setState(s => {
+        const sp = s.g === 3 && Date.now() - (this.firedAt || 0) < 2200 || s.holding ? 3 : 1;
+        return { pos: s.dragging ? s.pos : (s.pos + 0.0008 * sp) % 1, dp: s.dp >= 1 ? 0 : s.dp + 0.005 };
+      }), 120),
+      setInterval(() => { this.setState(s => ({ fi: (s.fi + 1) % 3, fdone: false })); runFmt(); }, 3600),
+      setInterval(() => this.setState(s => ({ up: (s.up + 1) % 4 })), 2400),
+      setInterval(() => { if (Date.now() < this.state.filtUntil) return; this.setState(s => ({ filt: (s.filt + 1) % 3 })); }, 3000)
+    ];
+  }
+  componentWillUnmount() { this.timers.forEach(clearInterval); clearTimeout(this.ft); clearTimeout(this.ht); this.io && this.io.disconnect(); }
+  fire(g, user) {
+    this.firedAt = Date.now();
+    this.setState(s => {
+      let pos = s.pos;
+      if (g === 0) pos = Math.max(0, pos - 0.02);
+      if (g === 1) pos = Math.min(1, pos + 0.02);
+      return { g, tick: s.tick + 1, pos, userUntil: user ? Date.now() + 7000 : s.userUntil };
+    });
+  }
+  fmt(t) { const m = Math.floor(t / 60), s = Math.floor(t % 60); return String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0'); }
+  fx() {
+    const h = React.createElement, g = this.state.g, k = 'fx' + this.state.tick;
+    const wrap = { position: 'absolute', inset: 0 };
+    const tap = (left, top = '50%') => h('div', { style: { position: 'absolute', left, top, width: 46, height: 46, marginLeft: -23, marginTop: -23 } },
+      [0, 1].map(i => h('div', { key: i, style: { position: 'absolute', inset: 0, borderRadius: '50%', border: '2px solid rgba(255,255,255,.95)', animation: `cwTap .5s ${i * 0.26}s ease-out both` } })));
+    const label = (pos, txt, delay = '.35s', dur = '1.4s') => h('div', { style: Object.assign({ position: 'absolute', display: 'flex', justifyContent: 'center' }, pos) },
+      h('div', { style: { color: '#fff', font: '800 clamp(14px,2vw,22px) Manrope', animation: `cwPop ${dur} ${delay} ease-out both`, textShadow: '0 2px 10px rgba(0,0,0,.6)' } }, txt));
+    if (g === 0 || g === 1) {
+      const L = g === 0;
+      return h('div', { key: k, style: wrap },
+        h('div', { style: { position: 'absolute', top: '-25%', bottom: '-25%', [L ? 'left' : 'right']: '-20%', width: '60%', borderRadius: '50%', background: 'rgba(255,255,255,.16)', animation: 'cwRipple 1.3s .35s ease-out both' } }),
+        label({ top: '50%', marginTop: -14, [L ? 'left' : 'right']: '6%', width: '28%' }, L ? '« − 10 s' : '+ 10 s »'),
+        tap(L ? '18%' : '82%', '30%'));
+    }
+    if (g === 2) return h('div', { key: k, style: wrap },
+      tap('50%', '72%'),
+      h('div', { style: { position: 'absolute', left: '50%', top: '50%', width: 76, height: 76, marginLeft: -38, marginTop: -38 } },
+        h('div', { style: { width: '100%', height: '100%', borderRadius: '50%', background: 'rgba(0,0,0,.55)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, animation: 'cwPop 1.5s .35s ease-out both' } },
+          h('span', { style: { width: 7, height: 26, background: '#fff', borderRadius: 2 } }), h('span', { style: { width: 7, height: 26, background: '#fff', borderRadius: 2 } }))));
+    if (g === 3) return h('div', { key: k, style: wrap },
+      h('div', { style: { position: 'absolute', left: '50%', top: '60%', width: 50, height: 50, marginLeft: -25, marginTop: -25 } },
+        h('div', { style: { position: 'absolute', inset: 0, borderRadius: '50%', background: 'rgba(255,255,255,.9)', animation: 'cwPop 2.2s ease-out both' } }),
+        [0, 1, 2].map(i => h('div', { key: i, style: { position: 'absolute', inset: 0, borderRadius: '50%', border: '2px solid rgba(255,255,255,.8)', animation: `cwHold 1s ${i * 0.4}s ease-out both` } }))),
+      h('div', { style: { position: 'absolute', left: 0, right: 0, top: '16%', display: 'flex', justifyContent: 'center' } },
+        h('div', { style: { background: 'rgba(0,0,0,.6)', color: '#fff', padding: '8px 16px', borderRadius: 999, font: '800 15px Manrope', animation: 'cwPop 2.2s .2s ease-out both', display: 'flex', gap: 8, alignItems: 'center' } }, '2×', h('span', { style: { color: '#E0223F' } }, '»»'))));
+    const R = g === 5;
+    return h('div', { key: k, style: wrap },
+      h('div', { style: { position: 'absolute', [R ? 'right' : 'left']: '7%', top: '22%', height: '56%', width: 6, borderRadius: 6, background: 'rgba(255,255,255,.25)', animation: 'cwPop 2s ease-out both', overflow: 'hidden', display: 'flex', alignItems: 'flex-end' } },
+        h('div', { style: { width: '100%', background: R ? '#fff' : '#FFD84D', borderRadius: 6, animation: 'cwFill 1.4s .2s ease-in-out both' } })),
+      h('div', { style: { position: 'absolute', [R ? 'right' : 'left']: '4%', top: '12%', font: "500 11px 'JetBrains Mono'", color: '#fff', letterSpacing: '.1em', animation: 'cwPop 2s ease-out both' } }, R ? 'VOLUME' : 'LUMIÈRE'),
+      h('div', { style: { position: 'absolute', left: R ? '76%' : '24%', top: '50%', width: 40, height: 40, marginLeft: -20, marginTop: -20, borderRadius: '50%', background: 'rgba(255,255,255,.85)', animation: 'cwSwipe 1.6s ease-in-out both' } }));
+  }
+  renderVals() {
+    const s = this.state, h = React.createElement;
+    const gdata = [['Double-tap gauche', 'Recule de 10 secondes'], ['Double-tap droite', 'Avance de 10 secondes'], ['Double-tap centre', 'Pause et reprise'], ['Appui long', 'Avance rapide ×2 tant que le doigt reste posé'], ['Glisser à gauche', 'Luminosité, du bout du doigt'], ['Glisser à droite', 'Volume, sans toucher aux boutons']];
+    const dur = 42 * 60 + 10;
+    const files = [
+      { name: 'S01E01.fr.srt', lines: ['1', '00:00:01,250 --> 00:00:03,900', 'Je veux que tu rentres à la maison,'], res: 'SRT', note: 'Extension et contenu concordent.' },
+      { name: 'S01E02.fr.srt', lines: ['WEBVTT', '', '00:00:01.250 --> 00:00:03.900', 'Pour reprendre les rênes…'], res: 'WebVTT', note: 'Annoncé .srt, lu comme WebVTT.' },
+      { name: 'S01E03.en.vtt', lines: ['WEBVTT', '', '00:02.100 --> 00:04.800', 'Please come together…'], res: 'WebVTT', note: 'En-tête WEBVTT reconnu.' }
+    ];
+    const sizeL = ['Petit', 'Moyen', 'Grand'], sizeV = ['clamp(11px,1.2vw,13px)', 'clamp(13px,1.5vw,16px)', 'clamp(16px,2vw,21px)'];
+    const colL = [['Blanc', '#FFFFFF'], ['Jaune', '#FFD84D'], ['Cyan', '#7FE3FF']];
+    const qL = ['360P', '480P', '720P', '1080P'], qF = [0.55, 1, 1.9, 3.4], base = [57.8, 73.2, 57.4];
+    const mb = v => v >= 1000 ? (v / 1000).toFixed(2).replace('.', ',') + ' Go' : v.toFixed(1).replace('.', ',') + ' Mo';
+    const f = qF[s.q], epTotal = base[1] * f;
+    const fl = ['Tout', 'Téléchargé', 'Live'];
+    const it = [
+      { t: 'A Different World [VF]', s: '3 épisodes · 263 Mo', type: 'dl', d: 'Aujourd’hui', img: 'url(uploads/09_menu_telechargement.png)', bs: '285px auto', bp: '-19px -332px' },
+      { t: 'The Blue Wolves of Mibu', s: 'S01E01 · 69 % vu', type: 'live', d: 'Aujourd’hui', img: 'url(uploads/09_menu_telechargement.png)', bs: '285px auto', bp: '-19px -410px' },
+      { t: 'Blood Legacy [VF]', s: 'S01E01 · 57,8 Mo', type: 'dl', d: 'Hier', img: 'url(uploads/04_fiche_blood_legacy.png)', bs: 'auto 260%', bp: '50% 4%' },
+      { t: 'Ready Player One [VF]', s: 'Film · 42 % vu', type: 'live', d: 'Lundi', img: 'url(uploads/09_menu_telechargement.png)', bs: '285px auto', bp: '-19px -489px' }
+    ];
+    const upAt = s.up;
+    return {
+      showDisclaimer: this.props.showDisclaimer ?? true,
+      marquee: ['Trending', 'Top 10', 'Anime', 'Movie', 'TV', 'FightZone', 'Trending', 'Top 10', 'Anime', 'Movie', 'TV', 'FightZone'],
+      fx: this.fx(),
+      dim: s.g === 4 && Date.now() - (this.firedAt || 0) < 2000 ? 0 : 0.15,
+      gestures: gdata.map(([t, d], i) => ({ t, d, active: i === s.g, bg: i === s.g ? '#1A1A21' : 'transparent', col: i === s.g ? '#F2F1EE' : '#A3A1AA', pick: () => this.fire(i, true) })),
+      gBar: h('div', { key: 'b' + s.tick, style: { height: '100%', background: '#E0223F', transformOrigin: 'left', animation: 'cwBar 2.8s linear both' } }),
+      tapL: () => this.fire(0, true), tapC: () => this.fire(2, true), tapR: () => this.fire(1, true),
+      holdStart: () => { clearTimeout(this.ht); this.ht = setTimeout(() => { this.fire(3, true); this.setState({ holding: true }); }, 450); },
+      holdEnd: () => { clearTimeout(this.ht); if (this.state.holding) this.setState({ holding: false }); },
+      speedLabel: s.holding || (s.g === 3 && Date.now() - (this.firedAt || 0) < 2200) ? 'VITESSE ×2' : '',
+      timeLabel: this.fmt(s.pos * dur) + ' / ' + this.fmt(dur),
+      posPct: (s.pos * 100).toFixed(2) + '%',
+      knob: s.dragging ? '24px' : '18px',
+      onBar: e => {
+        e.stopPropagation();
+        const el = e.currentTarget;
+        const set = x => { const r = el.getBoundingClientRect(); this.setState({ pos: Math.min(1, Math.max(0, (x - r.left) / r.width)) }); };
+        set(e.clientX); this.setState({ dragging: true, userUntil: Date.now() + 5000 });
+        const mv = ev => set(ev.clientX);
+        const up = () => { this.setState({ dragging: false }); removeEventListener('pointermove', mv); removeEventListener('pointerup', up); };
+        addEventListener('pointermove', mv); addEventListener('pointerup', up);
+      },
+      file: files[s.fi],
+      scanEl: h('div', { key: 'scan' + s.fi, style: { position: 'absolute', left: 0, right: 0, height: 2, background: '#E0223F', boxShadow: '0 0 16px 2px rgba(224,34,63,.7)', animation: 'cwScan 1.3s ease-in-out both' } }),
+      resOp: s.fdone ? 1 : 0, resY: s.fdone ? '0px' : '8px',
+      subSize: sizeV[s.sz], subColor: colL[s.col][1], subBg: s.sbg ? 'rgba(0,0,0,.65)' : 'transparent',
+      sizes: sizeL.map((label, i) => ({ label, bg: i === s.sz ? '#F2F1EE' : 'transparent', col: i === s.sz ? '#0B0B0F' : '#A3A1AA', pick: () => this.setState({ sz: i }) })),
+      colors: colL.map(([name, hex], i) => ({ name, hex, ring: i === s.col ? '5px' : '3px', pick: () => this.setState({ col: i }) })),
+      toggleBg: () => this.setState(p => ({ sbg: !p.sbg })), bgBtnCol: s.sbg ? '#E0223F' : '#A3A1AA',
+      memo: sizeL[s.sz] + ' · ' + colL[s.col][0].toLowerCase() + (s.sbg ? ' · fond' : ''),
+      qLeft: 'calc((100% - 8px) / 4 * ' + s.q + ')', qName: qL[s.q],
+      quals: qL.map((label, i) => ({ label, pick: () => this.setState({ q: i }) })),
+      eps: base.map((b, i) => ({ n: '0' + (i + 1), size: mb(b * f) })),
+      total: mb(base.reduce((a, b) => a + b, 0) * f),
+      dpPct: (s.dp * 100).toFixed(1) + '%',
+      dlText: mb(s.dp * epTotal) + ' / ' + mb(epTotal),
+      dlLeft: Math.max(1, Math.round((1 - s.dp) * 24 * f)) + ' s restantes',
+      filters: fl.map((label, i) => ({ label, bg: i === s.filt ? '#F2F1EE' : '#22222A', col: i === s.filt ? '#0B0B0F' : '#A3A1AA', pick: () => this.setState({ filt: i, filtUntil: Date.now() + 8000 }) })),
+      items: it.map(x => {
+        const vis = s.filt === 0 || (s.filt === 1 && x.type === 'dl') || (s.filt === 2 && x.type === 'live');
+        return Object.assign({}, x, { mh: vis ? '90px' : '0px', op: vis ? 1 : 0, pad: vis ? '12px 0' : '0px 0', tag: x.type === 'dl' ? 'TÉLÉCHARGÉ' : 'LIVE', tagCol: x.type === 'dl' ? '#F2F1EE' : '#E0223F' });
+      }),
+      up0: upAt === 0 ? 1 : 0, up1: upAt === 1 ? 1 : 0, up1s: upAt === 1 ? 1 : 0.94,
+      up2: upAt === 2 ? 1 : 0, upBar: upAt === 2 || upAt === 3 ? '100%' : '0%', upBarT: upAt === 2 ? '2s' : '0s',
+      up3: upAt === 3 ? 1 : 0, up3s: upAt === 3 ? 1 : 0.8
+    };
+  }
+}
+</script>
+<script>
+(function(){
+  fetch('https://api.github.com/repos/jacobiwoop/cinewoop-releases/releases/latest')
+    .then(function(r){ return r.ok ? r.json() : null; })
+    .then(function(d){
+      if (!d || !d.assets) return;
+      var apk = d.assets.find(function(a){ return a.name.endsWith('.apk'); });
+      if (!apk) return;
+      document.querySelectorAll('[data-apk-link]').forEach(function(a){ a.href = apk.browser_download_url; });
+    })
+    .catch(function(){});
+})();
+</script>
+</body>
+</html>
