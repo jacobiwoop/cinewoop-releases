@@ -1,0 +1,43 @@
+name: Upload APK to Vercel Blob
+
+# À chaque nouvelle release (publiée par scripts/release.sh), récupère l'APK et l'envoie
+# sur Vercel Blob à un chemin FIXE (cinewoop-latest.apk) : l'URL ne change jamais d'une
+# version à l'autre, donc le site n'a rien à mettre à jour.
+on:
+  release:
+    types: [published]
+  workflow_dispatch: {}
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Télécharger l'APK de la release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="${{ github.event.release.tag_name }}"
+          if [ -z "$TAG" ]; then
+            TAG=$(gh release view --repo "${{ github.repository }}" --json tagName -q .tagName)
+          fi
+          gh release download "$TAG" --repo "${{ github.repository }}" --pattern "*.apk" --output cinewoop.apk
+
+      - name: Envoyer sur Vercel Blob
+        env:
+          BLOB_READ_WRITE_TOKEN: ${{ secrets.BLOB_READ_WRITE_TOKEN }}
+        run: |
+          npm install @vercel/blob --no-save
+          node -e "
+            const { put } = require('@vercel/blob');
+            const fs = require('fs');
+            (async () => {
+              const file = fs.readFileSync('cinewoop.apk');
+              const blob = await put('cinewoop-latest.apk', file, {
+                access: 'public',
+                addRandomSuffix: false,
+                allowOverwrite: true,
+                contentType: 'application/vnd.android.package-archive'
+              });
+              console.log('Uploadé :', blob.url);
+            })().catch(err => { console.error(err); process.exit(1); });
+          "
