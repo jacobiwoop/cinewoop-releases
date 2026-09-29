@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CinéWoop</title>
-<meta name="description" content="CinéWoop est un client Android indépendant pour MovieBox : catalogue, lecteur vidéo avec gestes et sous-titres, téléchargement, et mises à jour automatiques.">
+<meta name="description" content="CinéWoop est une appli Android de streaming : catalogue films et séries, lecteur vidéo avec gestes et sous-titres, téléchargement, et mises à jour automatiques.">
 <meta property="og:title" content="CinéWoop">
-<meta property="og:description" content="Films et séries, votre façon. Un client Android indépendant pour MovieBox.">
+<meta property="og:description" content="Films et séries, votre façon.">
 <meta property="og:image" content="thumbnail.webp">
 <meta property="og:type" content="website">
 <link rel="icon" href="favicon.png" type="image/png">
@@ -58,9 +58,9 @@ a{color:#F2F1EE;text-decoration:none}a:hover{color:#E0223F}
 <header id="top" style="position:relative;max-width:1200px;margin:0 auto;padding:72px 24px 40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:48px;align-items:center">
   <div style="position:absolute;width:720px;height:720px;right:-160px;top:-120px;border-radius:50%;background:radial-gradient(circle,rgba(224,34,63,.28),rgba(224,34,63,0) 65%);animation:cwGlow 7s ease-in-out infinite;pointer-events:none"></div>
   <div data-reveal="1" style="position:relative">
-    <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.14em;color:#E0223F;text-transform:uppercase;margin-bottom:22px">Client Android non officiel · MovieBox</div>
-    <h1 style="font-family:Kurale,serif;font-weight:400;font-size:clamp(48px,6.4vw,88px);line-height:.98;margin:0 0 24px;letter-spacing:-.01em;text-wrap:balance">Tout MovieBox.<br><span style="color:#E0223F">Rien</span> de ce qui agace.</h1>
-    <p style="font-size:18px;line-height:1.6;color:#B9B7BF;max-width:480px;margin:0 0 34px;text-wrap:pretty">CinéWoop reprend l’intégralité du catalogue MovieBox dans une interface repensée : un vrai lecteur à gestes, des sous-titres qui s’affichent enfin correctement, et des téléchargements qu’on retrouve.</p>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.14em;color:#E0223F;text-transform:uppercase;margin-bottom:22px">Application Android indépendante</div>
+    <h1 style="font-family:Kurale,serif;font-weight:400;font-size:clamp(48px,6.4vw,88px);line-height:.98;margin:0 0 24px;letter-spacing:-.01em;text-wrap:balance">Tout le catalogue.<br><span style="color:#E0223F">Rien</span> de ce qui agace.</h1>
+    <p style="font-size:18px;line-height:1.6;color:#B9B7BF;max-width:480px;margin:0 0 34px;text-wrap:pretty">CinéWoop réunit un catalogue complet de films et séries dans une interface repensée : un vrai lecteur à gestes, des sous-titres qui s’affichent enfin correctement, et des téléchargements qu’on retrouve.</p>
     <div style="display:flex;gap:12px;flex-wrap:wrap">
       <a href="#apk" style="display:flex;align-items:center;gap:10px;background:#F2F1EE;color:#0B0B0F;padding:16px 26px;border-radius:999px;font-weight:800;font-size:16px">
         <span style="width:0;height:0;border-left:11px solid #0B0B0F;border-top:7px solid transparent;border-bottom:7px solid transparent"></span>Télécharger l’APK</a>
@@ -190,7 +190,7 @@ a{color:#F2F1EE;text-decoration:none}a:hover{color:#E0223F}
       <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.14em;color:#E0223F;margin-bottom:18px">03 — SOUS-TITRES</div>
       <h2 style="font-family:Kurale,serif;font-weight:400;font-size:clamp(38px,4.6vw,60px);line-height:1.02;margin:0;text-wrap:balance">Des sous-titres qui s’affichent. Vraiment.</h2>
     </div>
-    <p style="font-size:17px;line-height:1.65;color:#B9B7BF;margin:0;text-wrap:pretty">Sur MovieBox, un fichier annoncé en .srt contient parfois du WebVTT, et rien ne s’affiche. CinéWoop lit le contenu réel du fichier avant de le charger, puis vous laisse régler taille et couleur — mémorisées pour chaque titre.</p>
+    <p style="font-size:17px;line-height:1.65;color:#B9B7BF;margin:0;text-wrap:pretty">Certains fichiers annoncés en .srt contiennent en réalité du WebVTT, et rien ne s’affiche. CinéWoop lit le contenu réel du fichier avant de le charger, puis vous laisse régler taille et couleur — mémorisées pour chaque titre.</p>
   </div>
 
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:28px">
@@ -364,7 +364,7 @@ a{color:#F2F1EE;text-decoration:none}a:hover{color:#E0223F}
   <div style="max-width:1200px;margin:0 auto;padding:32px 24px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:13px;color:#7E7C86;line-height:1.6">
     <span style="font-family:Kurale,serif;font-size:18px;color:#F2F1EE">CinéWoop</span>
     <sc-if value="{{ showDisclaimer }}" hint-placeholder-val="{{ true }}">
-      <span style="max-width:620px">Projet indépendant, non affilié à MovieBox. CinéWoop n’héberge aucun contenu : il affiche le catalogue MovieBox dans sa propre interface.</span>
+      <span style="max-width:620px">Projet indépendant. CinéWoop n’héberge aucun contenu : il affiche un catalogue tiers dans sa propre interface.</span>
     </sc-if>
   </div>
 </footer>
