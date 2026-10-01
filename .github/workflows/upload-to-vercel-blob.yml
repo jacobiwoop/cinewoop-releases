@@ -1,8 +1,8 @@
 name: Upload APK to Vercel Blob
 
 # À chaque nouvelle release (publiée par scripts/release.sh), récupère l'APK et l'envoie
-# sur Vercel Blob à un chemin FIXE (cinewoop-latest.apk) : l'URL ne change jamais d'une
-# version à l'autre, donc le site n'a rien à mettre à jour.
+# sur Vercel Blob à un chemin FIXE (cinewoop-latest.apk) ainsi que version.json.
+# L'application Android interroge uniquement https://cinewoop.vercel.app/version.json.
 on:
   release:
     types: [published]
@@ -12,7 +12,7 @@ jobs:
   upload:
     runs-on: ubuntu-latest
     steps:
-      - name: Télécharger l'APK de la release
+      - name: Télécharger l'APK et les métadonnées de la release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -21,6 +21,7 @@ jobs:
             TAG=$(gh release view --repo "${{ github.repository }}" --json tagName -q .tagName)
           fi
           gh release download "$TAG" --repo "${{ github.repository }}" --pattern "*.apk" --output cinewoop.apk
+          gh release view "$TAG" --repo "${{ github.repository }}" --json tagName,name,body > release_raw.json
 
       - name: Envoyer sur Vercel Blob
         env:
@@ -31,6 +32,7 @@ jobs:
             const { put } = require('@vercel/blob');
             const fs = require('fs');
             (async () => {
+              // 1. Upload APK en premier
               const file = fs.readFileSync('cinewoop.apk');
               const blob = await put('cinewoop-latest.apk', file, {
                 access: 'public',
@@ -38,6 +40,24 @@ jobs:
                 allowOverwrite: true,
                 contentType: 'application/vnd.android.package-archive'
               });
-              console.log('Uploadé :', blob.url);
+              console.log('APK Uploadé sur Blob :', blob.url);
+
+              // 2. Générer et envoyer version.json
+              const raw = JSON.parse(fs.readFileSync('release_raw.json', 'utf8'));
+              const tag = raw.tagName || '';
+              const code = parseInt(tag.replace(/^v/, ''), 10) || 1;
+              const versionInfo = {
+                versionCode: code,
+                versionName: raw.name || tag,
+                notes: raw.body || '',
+                apkUrl: 'https://cinewoop.vercel.app/cinewoop.apk'
+              };
+              const vBlob = await put('version.json', JSON.stringify(versionInfo, null, 2), {
+                access: 'public',
+                addRandomSuffix: false,
+                allowOverwrite: true,
+                contentType: 'application/json'
+              });
+              console.log('version.json Uploadé sur Blob :', vBlob.url);
             })().catch(err => { console.error(err); process.exit(1); });
           "
