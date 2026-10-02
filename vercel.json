@@ -8,30 +8,18 @@
     {
       "source": "/version.json",
       "destination": "https://1kxauzo3gmcsiycy.public.blob.vercel-storage.com/version.json"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/docs",
+      "destination": "/",
+      "permanent": true
     },
     {
-      "source": "/",
-      "destination": "/docs/index.html"
-    },
-    {
-      "source": "/uploads/(.*)",
-      "destination": "/docs/uploads/$1"
-    },
-    {
-      "source": "/support.js",
-      "destination": "/docs/support.js"
-    },
-    {
-      "source": "/logo.png",
-      "destination": "/docs/logo.png"
-    },
-    {
-      "source": "/og-image.jpg",
-      "destination": "/docs/og-image.jpg"
-    },
-    {
-      "source": "/favicon.png",
-      "destination": "/docs/favicon.png"
+      "source": "/docs/:match*",
+      "destination": "/:match*",
+      "permanent": true
     }
   ],
   "headers": [
